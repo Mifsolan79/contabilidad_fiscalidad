@@ -293,3 +293,17 @@ main::-webkit-scrollbar-thumb:hover {
         padding: 1.5rem;
     }
 }
+
+/* Theory Section Styling */
+.formula-box {
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid var(--accent-color);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    margin: 1rem 0;
+    font-family: var(--font-mono);
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.1);
+}

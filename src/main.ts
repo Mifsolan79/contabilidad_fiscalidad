@@ -1,10 +1,12 @@
 import './styles/main.css';
 import { generateAllExercises } from './generators';
+import { theoryTopics } from './theory';
 import type { Exercise } from './types';
 
 // State
 let allExercises: Exercise[] = [];
 let activeCategory: string = 'Todos';
+let viewMode: 'exercises' | 'theory' = 'exercises';
 
 // DOM Elements
 const appDiv = document.querySelector<HTMLDivElement>('#app')!;
@@ -27,16 +29,12 @@ const init = () => {
   let isCorrect = false;
 
   if (type === 'number' || type === 'currency' || type === 'percentage') {
-    // Numeric comparison with tolerance
     const correctNum = Number(correctVal);
-    // Tolerance of 5% or 0.1 absolute
     const tolerance = Math.max(0.1, Math.abs(correctNum * 0.05));
-
     if (!isNaN(userVal) && Math.abs(userVal - correctNum) <= tolerance) {
       isCorrect = true;
     }
   } else {
-    // Text comparison (not heavily used yet)
     if (input.value.trim().toLowerCase() === String(correctVal).toLowerCase()) {
       isCorrect = true;
     }
@@ -52,14 +50,8 @@ const init = () => {
   } else {
     feedback.innerHTML = '<span style="color: #f87171; font-weight:bold;">❌ Incorrecto. Inténtalo de nuevo o revisa la solución.</span>';
     feedback.classList.remove('hidden');
-    solutionDiv.classList.remove('hidden'); // Show solution anyway after fail if desired, or keep hidden. 
-    // Let's keep button to allow retry? OR show solution. 
-    // User requested "diga si es correcto". Usually showing solution after fail is helpful.
-    btn.innerText = 'Ver Solución Completa';
-    btn.onclick = () => {
-      solutionDiv.classList.remove('hidden');
-      btn.style.display = 'none';
-    };
+    // Allow retry, do not show solution immediately unless requested via another mechanism if desired
+    // But currently we just show feedback
     input.style.borderColor = '#f87171';
   }
 };
@@ -81,9 +73,16 @@ const renderSidebar = () => {
   return `
     <aside id="sidebar">
       <nav style="margin-top: 2rem;">
+        <div style="margin-bottom: 2rem;">
+            <button class="${viewMode === 'theory' ? 'active' : ''}" id="btn-theory" style="border: 1px solid var(--accent-color); color: var(--accent-color);">
+               🎓 Aula Teórica
+            </button>
+        </div>
+
+        <div style="margin-bottom:0.5rem; font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); padding-left:10px;">Ejercicios</div>
         ${categories.map(cat => `
           <button 
-            class="${cat === activeCategory ? 'active' : ''}" 
+            class="${cat === activeCategory && viewMode === 'exercises' ? 'active' : ''}" 
             data-category="${cat}"
           >
             ${cat}
@@ -91,7 +90,7 @@ const renderSidebar = () => {
         `).join('')}
       </nav>
       <div style="margin-top:auto; font-size:0.75rem; color:var(--text-muted); opacity:0.6;">
-        v2.1 Interactive
+        v3.4 Professor Mode
       </div>
     </aside>
   `;
@@ -102,7 +101,6 @@ const renderExerciseCard = (ex: Exercise) => {
     .map(([key, value]) => `<div><span>${key}</span> <span>${value}</span></div>`)
     .join('');
 
-  // Determine input placeholder based on type
   const placeholder = ex.valueType === 'percentage' ? 'Ej: 15.5' : ex.valueType === 'currency' ? 'Ej: 5000' : 'Resultado';
   const unit = ex.valueType === 'percentage' ? '%' : ex.valueType === 'currency' ? '€' : '';
 
@@ -143,7 +141,35 @@ const renderExerciseCard = (ex: Exercise) => {
   `;
 };
 
+const renderTheory = () => {
+  return `
+    <main>
+      <div class="content-wrapper">
+        <header>
+          <h2>Aula Teórica</h2>
+          <p class="intro-text">Repasa los conceptos clave antes de practicar.</p>
+        </header>
+        
+        <div class="exercises-grid" style="grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));">
+          ${theoryTopics.map(topic => `
+            <div class="exercise-card" style="border-color: rgba(6, 182, 212, 0.4);">
+              <h3>${topic.title}</h3>
+              <div style="color: var(--text-secondary); line-height: 1.6;">
+                ${topic.content}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </main>
+    `;
+};
+
 const renderMain = () => {
+  if (viewMode === 'theory') {
+    return renderTheory();
+  }
+
   const exercises = filterExercises();
 
   return `
@@ -168,13 +194,23 @@ const render = () => {
     ${renderMain()}
   `;
 
-  document.querySelectorAll('aside nav button').forEach(btn => {
+  // Event Listeners
+  // 1. Sidebar Category Buttons
+  document.querySelectorAll('aside nav button[data-category]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const target = e.target as HTMLButtonElement;
       activeCategory = target.dataset.category || 'Todos';
+      viewMode = 'exercises'; // Switch back to exercises
       render();
       document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
     });
+  });
+
+  // 2. Theory Button
+  document.getElementById('btn-theory')?.addEventListener('click', () => {
+    viewMode = 'theory';
+    render();
+    document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
   });
 };
 
