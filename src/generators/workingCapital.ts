@@ -34,11 +34,17 @@ export const generateWorkingCapitalExercises = (count: number): Exercise[] => {
                 valueType: 'currency'
             });
         } else {
+            const questionsLongTerm = [
+                'Calcula el Fondo de Maniobra por el método del Patrimonio Neto y Pasivo No Corriente.',
+                'Determina el Fondo de Maniobra utilizando la financiación a largo plazo y el activo inmovilizado.',
+                'Comprueba la estabilidad financiera calculando el FM desde la perspectiva de los capitales permanentes.'
+            ];
+            const questionLong = questionsLongTerm[i % questionsLongTerm.length];
             exercises.push({
-                id: generateId('FM', i),
+                id: generateId('FM-L', i),
                 category: 'Análisis Patrimonial',
-                title: 'Cálculo del Fondo de Maniobra (Vía LP)',
-                question: 'Calcula el Fondo de Maniobra utilizando los datos de los Capitales Permanentes.',
+                title: 'Fondo de Maniobra (Largo Plazo)',
+                question: questionLong,
                 data: {
                     'Patrimonio Neto': formatCurrency(equity),
                     'Pasivo No Corriente': formatCurrency(nonCurrentLiabilities),

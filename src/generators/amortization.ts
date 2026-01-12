@@ -11,11 +11,19 @@ export const generateAmortizationExercises = (count: number): Exercise[] => {
 
         const annualFee = (acquisitionValue - residualValue) / usefulLife;
 
+        const questions = [
+            'Calcula la cuota de amortización anual lineal para la siguiente máquina.',
+            'Determina el gasto anual por depreciación de este activo usando el método lineal.',
+            '¿Cuál es la amortización anual contable de este bien según los datos facilitados?',
+            'Halla la cuota constante de amortización para este elemento del inmovilizado.'
+        ];
+        const question = questions[i % questions.length];
+
         exercises.push({
-            id: generateId('AMORT', i),
+            id: generateId('AM', i),
             category: 'Gestión del Inmovilizado',
-            title: 'Cálculo de Amortización Lineal',
-            question: 'Calcula la cuota anual.',
+            title: 'Amortización Lineal',
+            question: question,
             data: {
                 'Valor de Adquisición': formatCurrency(acquisitionValue),
                 'Valor Residual': formatCurrency(residualValue),

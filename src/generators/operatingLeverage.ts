@@ -16,11 +16,19 @@ export const generateOperatingLeverageExercises = (count: number): Exercise[] =>
         const profit = margin - fixedCosts;
         const ao = margin / profit;
 
+        const questions = [
+            'Calcula el Grado de Apalancamiento Operativo (GAO) para esta empresa.',
+            'Determina la sensibilidad del beneficio ante cambios en las ventas calculando el Apalancamiento Operativo.',
+            '¿Cuál es el GAO de esta compañía dado su nivel actual de ventas y estructura de costes?',
+            'Halla el multiplicador del beneficio (Apalancamiento Operativo) para un aumento en las ventas.'
+        ];
+        const question = questions[i % questions.length];
+
         exercises.push({
             id: generateId('AO', i),
             category: 'Análisis de Costes',
             title: 'Apalancamiento Operativo',
-            question: 'Dada la siguiente cuenta de resultados analítica, calcula el Apalancamiento Operativo (AO).',
+            question: question,
             data: {
                 'Ventas': formatCurrency(sales),
                 'Costes Variables': formatCurrency(variableCosts),

@@ -16,11 +16,19 @@ export const generatePMMExercises = (count: number): Exercise[] => {
             const pmp = randomInt(30, 90);
             const pmmF = pma + pmf + pmv + pmc - pmp;
 
+            const questionsPMM = [
+                'Calcula el Periodo Medio de Maduración Financiero (PMM).',
+                'Determina el ciclo de caja o maduración financiera de la empresa.',
+                '¿Cuántos días tarda la empresa en recuperar su inversión desde que paga a proveedores? (Calcula el PMM Financiero).',
+                'Halla el PMM Financiero a partir de los periodos medios de almacenamiento, fabricación, venta y pago.'
+            ];
+            const questionPMM = questionsPMM[i % questionsPMM.length];
+
             exercises.push({
                 id: generateId('PMM', i),
-                category: 'Análisis Financiero',
-                title: 'Cálculo PMM Financiero',
-                question: 'Calcula el Periodo Medio de Maduración Financiero.',
+                category: 'PMM',
+                title: 'Periodo Medio de Maduración',
+                question: questionPMM,
                 data: {
                     'PMa': `${pma}`, 'PMf': `${pmf}`, 'PMv': `${pmv}`, 'PMc': `${pmc}`, 'PMp': `${pmp}`
                 },

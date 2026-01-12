@@ -13,11 +13,19 @@ export const generateBreakEvenExercises = (count: number): Exercise[] => {
         const q = fixedCosts / margin;
         const breakEvenPoint = Math.ceil(q);
 
+        const questions = [
+            'Una empresa presenta la siguiente estructura de costes. Calcula el Umbral de Rentabilidad (Punto Muerto) en unidades físicas.',
+            'Dada la información de costes y precios, determina cuántas unidades debe vender la empresa para empezar a obtener beneficios.',
+            'Calcula la cantidad de equilibrio (Q*) para esta empresa basándote en sus costes fijos y margen de contribución.',
+            '¿Cuál es el volumen de ventas mínimas (en unidades) necesario para cubrir todos los costes?'
+        ];
+        const question = questions[i % questions.length];
+
         exercises.push({
             id: generateId('UR', i),
             category: 'Análisis de Costes',
             title: 'Cálculo del Umbral de Rentabilidad',
-            question: 'Una empresa presenta la siguiente estructura de costes. Calcula el Umbral de Rentabilidad (Punto Muerto) en unidades físicas.',
+            question: question,
             data: {
                 'Costes Fijos Totales (CF)': formatCurrency(fixedCosts),
                 'Precio de Venta Unitario (P)': formatCurrency(price),
@@ -28,6 +36,7 @@ export const generateBreakEvenExercises = (count: number): Exercise[] => {
             correctValue: breakEvenPoint,
             valueType: 'number'
         });
+
     }
 
     return exercises;
