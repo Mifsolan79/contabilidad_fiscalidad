@@ -30,8 +30,8 @@ const renderSidebar = () => {
   return `
     <aside id="sidebar">
       <h1>
-        <span style="font-size: 1.2em">📊</span>
-        Ejercicios Finanzas
+        <span style="border-radius:50%; background:rgba(56,189,248,0.2); padding:8px; display:inline-flex;">📊</span>
+        <span>Finanzas</span>
       </h1>
       <nav>
         ${categories.map(cat => `
@@ -43,8 +43,8 @@ const renderSidebar = () => {
           </button>
         `).join('')}
       </nav>
-      <div style="margin-top: auto; color: var(--text-secondary); font-size: 0.8rem;">
-         Generado dinámicamente<br>Versión 1.0
+      <div style="margin-top:auto; font-size:0.75rem; color:var(--text-muted); opacity:0.6;">
+        v1.2 Premium
       </div>
     </aside>
   `;
@@ -52,22 +52,21 @@ const renderSidebar = () => {
 
 const renderExerciseCard = (ex: Exercise) => {
   const dataHtml = Object.entries(ex.data)
-    .map(([key, value]) => `<div><strong>${key}:</strong> ${value}</div>`)
+    .map(([key, value]) => `<div><span>${key}</span> <span>${value}</span></div>`)
     .join('');
 
   return `
     <div class="exercise-card">
       <div class="exercise-header">
         <span class="exercise-id">${ex.id}</span>
-        <span style="font-size: 0.8rem; color: var(--accent-color)">${ex.category}</span>
+        <span class="exercise-category">${ex.category}</span>
       </div>
-      <div class="exercise-content">
-        <h3>${ex.title}</h3>
-        <p style="margin: 0.5rem 0; color: #cbd5e1">${ex.question}</p>
-        
-        <div class="exercise-data">
-          ${dataHtml}
-        </div>
+      
+      <h3>${ex.title}</h3>
+      <p class="exercise-question">${ex.question}</p>
+      
+      <div class="exercise-data">
+        ${dataHtml}
       </div>
       
       <div class="solution-container">
@@ -75,8 +74,8 @@ const renderExerciseCard = (ex: Exercise) => {
           Ver Solución
         </button>
         <div id="sol-${ex.id}" class="solution-content hidden">
-          <div><strong>Solución:</strong> ${ex.solution}</div>
-          ${ex.explanation ? `<div style="margin-top: 0.5rem; font-size: 0.9rem; color: #f8fafc; white-space: pre-wrap; word-break: break-word; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px;">${ex.explanation}</div>` : ''}
+          <div class="solution-val">${ex.solution}</div>
+          ${ex.explanation ? `<div class="solution-expl">${ex.explanation}</div>` : ''}
         </div>
       </div>
     </div>
@@ -88,16 +87,15 @@ const renderMain = () => {
 
   return `
     <main>
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
-        <div>
-           <h2>${activeCategory}</h2>
-           <p class="intro-text">Mostrando ${exercises.length} ejercicios prácticos generados.</p>
+      <div class="content-wrapper">
+        <header>
+          <h2>${activeCategory}</h2>
+          <p class="intro-text">Practica con ${exercises.length} ejercicios generados dinámicamente.</p>
+        </header>
+        
+        <div class="exercises-grid">
+          ${exercises.map(renderExerciseCard).join('')}
         </div>
-        <button id="menu-toggle" style="display: none; background: none; border: none; color: white; font-size: 1.5rem;">☰</button>
-      </div>
-      
-      <div class="exercises-grid">
-        ${exercises.map(renderExerciseCard).join('')}
       </div>
     </main>
   `;
@@ -115,7 +113,7 @@ const render = () => {
       const target = e.target as HTMLButtonElement;
       activeCategory = target.dataset.category || 'Todos';
       render();
-      window.scrollTo(0, 0);
+      document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 };
