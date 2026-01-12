@@ -67,9 +67,7 @@ AO = ${a} / ${u} = ${b(v,4)}`,correctValue:v,valueType:"number"})}return o},j=e=
           </button>
         `).join("")}
       </nav>
-      <div style="margin-top:auto; font-size:0.75rem; color:var(--text-muted); opacity:0.6;">
-        v3.4 Professor Mode
-      </div>
+
     </aside>
   `},J=e=>{const o=Object.entries(e.data).map(([t,a])=>`<div><span>${t}</span> <span>${a}</span></div>`).join(""),i=e.valueType==="percentage"?"Ej: 15.5":e.valueType==="currency"?"Ej: 5000":"Resultado",n=e.valueType==="percentage"?"%":e.valueType==="currency"?"€":"";return`
     <div class="exercise-card">
