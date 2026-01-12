@@ -80,11 +80,7 @@ const renderSidebar = () => {
 
   return `
     <aside id="sidebar">
-      <h1>
-        <span style="border-radius:50%; background:rgba(6,182,212,0.1); padding:8px; display:inline-flex;">🚀</span>
-        <span>Finanzas Pro</span>
-      </h1>
-      <nav>
+      <nav style="margin-top: 2rem;">
         ${categories.map(cat => `
           <button 
             class="${cat === activeCategory ? 'active' : ''}" 
