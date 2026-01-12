@@ -169,9 +169,12 @@ header h2 {
 
 .exercise-card h3 {
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 1rem;
-    color: #fff;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
 }
 
 .exercise-question {
