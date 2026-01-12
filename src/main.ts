@@ -5,7 +5,7 @@ import type { Exercise } from './types';
 
 // State
 let allExercises: Exercise[] = [];
-let activeCategory: string = 'Todos';
+let activeCategory: string = '';
 let viewMode: 'exercises' | 'theory' = 'exercises';
 
 // DOM Elements
@@ -13,6 +13,10 @@ const appDiv = document.querySelector<HTMLDivElement>('#app')!;
 
 const init = () => {
   allExercises = generateAllExercises();
+  const categories = new Set(allExercises.map(ex => ex.category));
+  if (categories.size > 0) {
+    activeCategory = Array.from(categories)[0];
+  }
   render();
 };
 
@@ -59,11 +63,10 @@ const init = () => {
 
 const getCategories = () => {
   const categories = new Set(allExercises.map(ex => ex.category));
-  return ['Todos', ...Array.from(categories)];
+  return Array.from(categories);
 };
 
 const filterExercises = () => {
-  if (activeCategory === 'Todos') return allExercises;
   return allExercises.filter(ex => ex.category === activeCategory);
 };
 
@@ -199,7 +202,7 @@ const render = () => {
   document.querySelectorAll('aside nav button[data-category]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const target = e.target as HTMLButtonElement;
-      activeCategory = target.dataset.category || 'Todos';
+      activeCategory = target.dataset.category || '';
       viewMode = 'exercises'; // Switch back to exercises
       render();
       document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
