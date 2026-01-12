@@ -6,8 +6,8 @@ export const generateAmortizationExercises = (count: number): Exercise[] => {
 
     for (let i = 0; i < count; i++) {
         const acquisitionValue = randomInt(10, 500) * 1000;
-        const residualValue = Math.floor(acquisitionValue * (randomInt(0, 10) / 100)); // 0-10% residual
-        const usefulLife = randomInt(4, 20); // years
+        const residualValue = Math.floor(acquisitionValue * (randomInt(0, 10) / 100));
+        const usefulLife = randomInt(4, 20);
 
         const annualFee = (acquisitionValue - residualValue) / usefulLife;
 
@@ -15,14 +15,16 @@ export const generateAmortizationExercises = (count: number): Exercise[] => {
             id: generateId('AMORT', i),
             category: 'Gestión del Inmovilizado',
             title: 'Cálculo de Amortización Lineal',
-            question: 'Calcula la cuota de amortización anual lineal para un activo con los siguientes datos:',
+            question: 'Calcula la cuota anual.',
             data: {
                 'Valor de Adquisición': formatCurrency(acquisitionValue),
                 'Valor Residual': formatCurrency(residualValue),
                 'Vida Útil': `${usefulLife} años`
             },
             solution: formatCurrency(annualFee),
-            explanation: `Fórmula: (V. Adquisición - V. Residual) / Vida Útil\n(${acquisitionValue} - ${residualValue}) / ${usefulLife} = ${formatNumber(annualFee, 2)}`
+            explanation: `Fórmula: (V.Adq - V.Res) / Vida\n(${acquisitionValue} - ${residualValue}) / ${usefulLife} = ${formatNumber(annualFee, 2)}`,
+            correctValue: annualFee,
+            valueType: 'currency'
         });
     }
 

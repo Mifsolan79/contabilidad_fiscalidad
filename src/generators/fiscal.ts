@@ -9,26 +9,26 @@ export const generateFiscalExercises = (count: number): Exercise[] => {
 
         if (isIva) {
             const repercutido = randomInt(5000, 50000);
-            const soportado = randomInt(3000, 45000); // Can be higher than repercutido (a devolver)
+            const soportado = randomInt(3000, 45000);
             const result = repercutido - soportado;
             const typeStr = result > 0 ? 'A PAGAR' : 'A COMPENSAR/DEVOLVER';
 
             exercises.push({
                 id: generateId('FISCAL', i),
                 category: 'Fiscalidad',
-                title: 'Liquidación de IVA (Modelo 303)',
-                question: 'Realiza la liquidación del IVA trimestral con los siguientes datos y determina si es a pagar o a compensar.',
+                title: 'Liquidación de IVA',
+                question: 'Calcula el resultado de la liquidación (positivo o negativo).',
                 data: {
-                    'IVA Repercutido (Devengado)': formatCurrency(repercutido),
-                    'IVA Soportado (Deducible)': formatCurrency(soportado)
+                    'IVA Repercutido': formatCurrency(repercutido),
+                    'IVA Soportado': formatCurrency(soportado)
                 },
                 solution: `${formatCurrency(result)} (${typeStr})`,
-                explanation: `Fórmula: IVA Repercutido - IVA Soportado\n${repercutido} - ${soportado} = ${result} €`
+                explanation: `${repercutido} - ${soportado} = ${result}`,
+                correctValue: result,
+                valueType: 'currency'
             });
         } else {
-            // IS
             const bi = randomInt(10000, 1000000);
-            // const tipo = 25; // unused
             const ci = bi * 0.25;
             const deductions = randomInt(0, 5000);
             const retentions = randomInt(0, 5000);
@@ -37,16 +37,18 @@ export const generateFiscalExercises = (count: number): Exercise[] => {
             exercises.push({
                 id: generateId('FISCAL', i),
                 category: 'Fiscalidad',
-                title: 'Cálculo Cuota Diferencial IS',
-                question: 'Calcula la Cuota Diferencial del Impuesto sobre Sociedades.',
+                title: 'Cuota Diferencial IS',
+                question: 'Calcula la Cuota Diferencial.',
                 data: {
                     'Base Imponible': formatCurrency(bi),
-                    'Tipo de Gravamen': '25%',
-                    'Deducciones y Bonificaciones': formatCurrency(deductions),
-                    'Retenciones y Pagos a Cuenta': formatCurrency(retentions)
+                    'Tipo': '25%',
+                    'Deducciones': formatCurrency(deductions),
+                    'Retenciones': formatCurrency(retentions)
                 },
                 solution: formatCurrency(cd),
-                explanation: `Cuota Íntegra = ${bi} x 0.25 = ${ci}\nCuota Líquida = ${ci} - ${deductions} = ${ci - deductions}\nCuota Diferencial = Cuota Líquida - Pagos a cuenta = ${ci - deductions} - ${retentions} = ${cd}`
+                explanation: `CI=${ci} -> CL=${ci - deductions} -> CD=${cd}`,
+                correctValue: cd,
+                valueType: 'currency'
             });
         }
     }
