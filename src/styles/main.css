@@ -72,6 +72,7 @@ aside nav button {
     border-radius: var(--radius-sm);
     margin-bottom: 4px;
     transition: var(--transition-fast);
+    text-transform: uppercase;
 }
 
 aside nav button:hover {
