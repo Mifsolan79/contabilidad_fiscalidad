@@ -89,7 +89,7 @@ AO = ${a} / ${u} = ${v(g,4)}`,correctValue:g,valueType:"number"})}return o},j=e=
       
       <div class="interaction-area" style="margin-top: auto;">
         <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
-          <input type="text" inputmode="decimal" id="input-${e.id}" placeholder="${n}" 
+          <input type="text" id="input-${e.id}" placeholder="${n}" 
                  style="flex:1; padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.3); color:white; font-family:var(--font-mono);">
           <span style="color:var(--text-secondary)">${t}</span>
         </div>
